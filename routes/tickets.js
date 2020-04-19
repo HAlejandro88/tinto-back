@@ -1,10 +1,13 @@
 const express =  require('express'),
       Tickets = require('../models/tickets'),
+      {verificarToken} = require('../server/middlewares/auth'),
       app = express();
 
 
 app.get('/', (req,res) => {
-    Tickets.find().exec((err, tickestBD) => {
+    Tickets.find()
+                .populate('usuario', 'nombre')
+                .exec((err, tickestBD) => {
         if (err) {
             res.status(400).json({
                 ok: false,
@@ -21,14 +24,15 @@ app.get('/', (req,res) => {
 })
 
 
-app.post('/crear', (req,res) => {
+app.post('/crear',[verificarToken],(req,res) => {
     let body = req.body;
 
     let newticket = {
         nombre: body.nombre,
         pantalon: body.pantalon,
         camisa: body.camisa,
-        traje: body.traje
+        traje: body.traje,
+        usuario: body.usuario
     }
 
     Tickets.create(newticket,(err, ticketGuardado) =>{

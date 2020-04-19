@@ -1,7 +1,12 @@
+require('./config/config');
+
 const express = require('express'),
       bodyParser = require('body-parser'),
       mongoose = require('mongoose'),
       ticketsroutes = require('../routes/tickets'),
+      usuarioRoutes = require('../routes/usuario'),
+      loginRoutes = require('../routes/login'),
+      authRoutes = require('../routes/auth'),
       app = express(),
       cors = require('cors');
 
@@ -21,6 +26,9 @@ app.use(bodyParser.json());
 
 //rutas
 app.use('/ticket',ticketsroutes); 
+app.use('/user', usuarioRoutes);
+app.use('/user/login', loginRoutes);
+app.use('/user/auth', authRoutes);
 
 app.get('/', (req,res) => {
     res.status(200).json({
@@ -30,4 +38,4 @@ app.get('/', (req,res) => {
 })
 
 
-app.listen(3000, () => console.log('esta vivo'));
+app.listen(process.env.PORT, () => console.log('esta vivo'));

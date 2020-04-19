@@ -19,6 +19,11 @@ const ticketsModel = new mongoose.Schema({
         type: Boolean,
         required: false,
         default: false
+    },
+    usuario: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'usuarios',
+        required: true
     }
 })
 
